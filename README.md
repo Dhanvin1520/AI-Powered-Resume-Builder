@@ -1,1 +1,2 @@
-Myfirst try out with Tailwind and Javascript libraries
+✌️Myfirst try out with Tailwind and Javascript libraries
+👾👾
