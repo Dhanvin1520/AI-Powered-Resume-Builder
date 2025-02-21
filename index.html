@@ -10,16 +10,14 @@
 <body class="bg-gray-100 text-gray-900">
     <div class="container mx-auto p-6">
         <h1 class="text-3xl font-bold text-center mb-6">AI-Powered Resume Builder</h1>
-        
-
-        <div class="bg-white p-6 shadow-md rounded-md">
+<div class="bg-white p-6 shadow-md rounded-md">
             <label class="block mb-2">Full Name:</label>
             <input type="text" id="name" class="w-full p-2 border rounded mb-4" placeholder="Your Name">
             
-        <label class="block mb-2">Job Title:</label>
-        <input type="text" id="job" class="w-full p-2 border rounded mb-4" placeholder="Job Title">
+    <label class="block mb-2">Job Title:</label>
+    <input type="text" id="job" class="w-full p-2 border rounded mb-4" placeholder="Job Title">
             
-            <label class="block mb-2">Skills (comma separated):</label>
+        <label class="block mb-2">Skills (comma separated):</label>
             <input type="text" id="skills" class="w-full p-2 border rounded mb-4" placeholder="Skill1, Skill2, Skill3">
             
             <label class="block mb-2">Experience:</label>
@@ -28,12 +26,10 @@
             <button id="generate" class="bg-blue-500 text-white px-4 py-2 rounded">Generate Resume</button>
             <button id="download" class="bg-green-500 text-white px-4 py-2 rounded ml-2">Download PDF</button>
         </div>
-        
-
-        <div id="resumePreview" class="bg-white p-6 shadow-md rounded-md mt-6 hidden">
+<div id="resumePreview" class="bg-white p-6 shadow-md rounded-md mt-6 hidden">
             <h2 class="text-2xl font-bold" id="previewName"></h2>
             <p class="text-gray-600" id="previewJob"></p>
-            <h3 class="text-xl font-semibold mt-4">Skills</h3>
+        <h3 class="text-xl font-semibold mt-4">Skills</h3>
             <ul id="previewSkills" class="list-disc ml-6"></ul>
             <h3 class="text-xl font-semibold mt-4">Experience</h3>
             <p id="previewExperience"></p>
@@ -43,17 +39,30 @@
     <script>
         document.getElementById('generate').addEventListener('click', function() {
             document.getElementById('previewName').innerText = document.getElementById('name').value;
-            document.getElementById('previewJob').innerText = document.getElementById('job').value;
+        document.getElementById('previewJob').innerText = document.getElementById('job').value;
             
-            let skillsArray = document.getElementById('skills').value.split(',').map(skill => `<li>${skill.trim()}</li>`).join('');
+        let skillsArray = document.getElementById('skills').value.split(',').map(skill => `<li>${skill.trim()}</li>`).join('');
             document.getElementById('previewSkills').innerHTML = skillsArray;
             
-            document.getElementById('previewExperience').innerText = document.getElementById('experience').value;
+        document.getElementById('previewExperience').innerText = document.getElementById('experience').value;
             
-            document.getElementById('resumePreview').classList.remove('hidden');
+        document.getElementById('resumePreview').classList.remove('hidden');
         });
         
-
+document.getElementById('download').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+        doc.text(`Name: ${document.getElementById('name').value}`, 10, 10);
+            doc.text(`Job Title: ${document.getElementById('job').value}`, 10, 20);
+        doc.text(`Skills: ${document.getElementById('skills').value}`, 10, 30);
+            doc.text(`Experience: ${document.getElementById('experience').value}`, 10, 40);
+            doc.save("Resume.pdf");
+        });
     </script>
 </body>
 </html>
+
+
+
+
+
