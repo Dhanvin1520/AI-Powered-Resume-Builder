@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,64 +6,153 @@
     <title>AI-Powered Resume Builder</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script defer src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
-    <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold text-center mb-6">AI-Powered Resume Builder</h1>
-<div class="bg-white p-6 shadow-md rounded-md">
-            <label class="block mb-2">Full Name:</label>
-            <input type="text" id="name" class="w-full p-2 border rounded mb-4" placeholder="Your Name">
+<body class="min-h-screen bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
+        <h1 class="mb-8 text-center text-3xl font-bold text-gray-900">AI-Powered Resume Builder</h1>
+        
+        <div class="grid gap-8 md:grid-cols-2">
             
-    <label class="block mb-2">Job Title:</label>
-    <input type="text" id="job" class="w-full p-2 border rounded mb-4" placeholder="Job Title">
-            
-        <label class="block mb-2">Skills (comma separated):</label>
-            <input type="text" id="skills" class="w-full p-2 border rounded mb-4" placeholder="Skill1, Skill2, Skill3">
-            
-            <label class="block mb-2">Experience:</label>
-            <textarea id="experience" class="w-full p-2 border rounded mb-4" placeholder="Your Experience"></textarea>
-            
-            <button id="generate" class="bg-blue-500 text-white px-4 py-2 rounded">Generate Resume</button>
-            <button id="download" class="bg-green-500 text-white px-4 py-2 rounded ml-2">Download PDF</button>
+            <div class="space-y-6 rounded-lg bg-white p-6 shadow-lg">
+                <div class="space-y-4">
+                        <h2 class="text-xl font-semibold text-gray-900">Personal Information</h2>
+                    <input type="text" id="fullName" placeholder="Full Name" class="w-full rounded border p-2">
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <input type="tel" id="phone" placeholder="Phone Number" class="w-full rounded border p-2">
+                        <input type="email" id="email" placeholder="Email Address" class="w-full rounded border p-2">
         </div>
-<div id="resumePreview" class="bg-white p-6 shadow-md rounded-md mt-6 hidden">
-            <h2 class="text-2xl font-bold" id="previewName"></h2>
-            <p class="text-gray-600" id="previewJob"></p>
-        <h3 class="text-xl font-semibold mt-4">Skills</h3>
-            <ul id="previewSkills" class="list-disc ml-6"></ul>
-            <h3 class="text-xl font-semibold mt-4">Experience</h3>
-            <p id="previewExperience"></p>
+                    <div class="grid gap-4 sm:grid-cols-3">
+                        <input type="url" id="linkedin" placeholder="LinkedIn URL" class="w-full rounded border p-2">
+                        <input type="url" id="github" placeholder="GitHub URL" class="w-full rounded border p-2">
+                        <input type="url" id="portfolio" placeholder="Portfolio URL" class="w-full rounded border p-2">
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Professional Summary</h2>
+                    <textarea id="summary" placeholder="Write a brief professional summary..." class="w-full rounded border p-2 min-h-[100px]"></textarea>
+                </div>
+
+    <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Education</h2>
+         <div id="educationContainer">
+                        <div class="education-entry space-y-4 mb-4">
+                            <input type="text" placeholder="Degree/Certificate" class="w-full rounded border p-2">
+                     <input type="text" placeholder="Institution" class="w-full rounded border p-2">
+                            <div class="grid gap-4 sm:grid-cols-2">
+                                <input type="text" placeholder="Year Started" class="w-full rounded border p-2">
+                                <input type="text" placeholder="Year Completed" class="w-full rounded border p-2">
+                            </div>
+                        <input type="text" placeholder="Grade/Score" class="w-full rounded border p-2">
+                        </div>
+                    </div>
+                    <button id="addEducation" class="bg-blue-500 text-white px-4 py-2 rounded">Add Another Education</button>
+                </div>
+
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Experience</h2>
+                    <input type="text" id="jobTitle" placeholder="Job Title" class="w-full rounded border p-2">
+ <input type="text" id="company" placeholder="Company" class="w-full rounded border p-2">
+                    <div class="grid gap-4 sm:grid-cols-2">
+        <input type="text" id="jobStartDate" placeholder="Start Date" class="w-full rounded border p-2">
+                        <input type="text" id="jobEndDate" placeholder="End Date" class="w-full rounded border p-2">
+                    </div>
+                    <textarea id="jobDescription" placeholder="Job Description" class="w-full rounded border p-2 min-h-[100px]"></textarea>
+                </div>
+
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Projects</h2>
+                    <div id="projectsContainer">
+                        <div class="project-entry space-y-4 mb-4">
+                            <input type="text" placeholder="Project Title" class="w-full rounded border p-2">
+                            <textarea placeholder="Project Description" class="w-full rounded border p-2 min-h-[100px]"></textarea>
+              <div class="grid gap-4 sm:grid-cols-2">
+                                <input type="url" placeholder="GitHub URL" class="w-full rounded border p-2">
+                                <input type="url" placeholder="Demo URL" class="w-full rounded border p-2">
+                </div>
+                        </div>
+                    </div>
+                    <button id="addProject" class="bg-blue-500 text-white px-4 py-2 rounded">Add Another Project</button>
+                </div>
+
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Skills</h2>
+                    <div id="skillsContainer">
+                        <div class="skill-entry flex items-center space-x-2 mb-2">
+                            <input type="text" placeholder="Skill" class="flex-grow rounded border p-2">
+                            <button class="remove-skill bg-red-500 text-white px-2 py-1 rounded">Remove</button>
+                        </div>
+                    </div>
+                    <button id="addSkill" class="bg-blue-500 text-white px-4 py-2 rounded">Add Skill</button>
+                </div>
+
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Certifications</h2>
+                    <textarea id="certifications" placeholder="List your certifications" class="w-full rounded border p-2 min-h-[100px]"></textarea>
+                </div>
+
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Extra-Curricular Activities</h2>
+         <textarea id="activities" placeholder="List your extra-curricular activities" class="w-full rounded border p-2 min-h-[100px]"></textarea>
+                </div>
+
+                <div class="flex gap-4">
+                    <button id="generateResume" class="flex-1 bg-blue-500 text-white px-4 py-2 rounded">Generate Resume</button>
+                    <button id="downloadPDF" class="flex-1 bg-green-500 text-white px-4 py-2 rounded">Download PDF</button>
+                </div>
+            </div>
+
+            <div id="previewPanel" class="hidden rounded-lg bg-white p-6 shadow-lg">
+                <div class="space-y-6 print:space-y-4">
+                    <div class="border-b pb-4">
+                        <h1 id="previewName" class="text-2xl font-bold"></h1>
+                        <div class="mt-2 space-y-1 text-sm text-gray-600">
+          <p id="previewPhone"></p>
+                            <p id="previewEmail"></p>
+                       <div id="previewLinks" class="flex gap-4"></div>
+                        </div>
+                    </div>
+
+                    <section class="border-b pb-4">
+                        <h2 class="text-lg font-semibold uppercase tracking-wider text-gray-900">Professional Summary</h2>
+                        <p id="previewSummary" class="mt-2 text-gray-600"></p>
+                    </section>
+
+                    <section class="border-b pb-4">
+                        <h2 class="text-lg font-semibold uppercase tracking-wider text-gray-900">Education</h2>
+                        <div id="previewEducation" class="mt-2 space-y-2"></div>
+                    </section>
+
+    <section id="previewExperienceSection" class="border-b pb-4 hidden">
+      <h2 class="text-lg font-semibold uppercase tracking-wider text-gray-900">Experience</h2>
+                        <div id="previewExperience" class="mt-2 space-y-2"></div>
+                    </section>
+
+                    <section class="border-b pb-4">
+                        <h2 class="text-lg font-semibold uppercase tracking-wider text-gray-900">Projects</h2>
+                        <div id="previewProjects" class="mt-2 space-y-4"></div>
+                    </section>
+
+             <section class="border-b pb-4">
+                        <h2 class="text-lg font-semibold uppercase tracking-wider text-gray-900">Skills</h2>
+                        <ul id="previewSkills" class="mt-2 list-disc pl-5 text-gray-600"></ul>
+                  </section>
+
+                    <section class="border-b pb-4">
+                        <h2 class="text-lg font-semibold uppercase tracking-wider text-gray-900">Certifications</h2>
+                        <p id="previewCertifications" class="mt-2 text-gray-600"></p>
+         </section>
+
+                    <section>
+                        <h2 class="text-lg font-semibold uppercase tracking-wider text-gray-900">Extra-Curricular Activities</h2>
+            <p id="previewActivities" class="mt-2 text-gray-600"></p>
+                    </section>
+                </div>
+            </div>
         </div>
     </div>
+    <script src="script.js"></script>
 
-    <script>
-        document.getElementById('generate').addEventListener('click', function() {
-            document.getElementById('previewName').innerText = document.getElementById('name').value;
-        document.getElementById('previewJob').innerText = document.getElementById('job').value;
-            
-        let skillsArray = document.getElementById('skills').value.split(',').map(skill => `<li>${skill.trim()}</li>`).join('');
-            document.getElementById('previewSkills').innerHTML = skillsArray;
-            
-        document.getElementById('previewExperience').innerText = document.getElementById('experience').value;
-            
-        document.getElementById('resumePreview').classList.remove('hidden');
-        });
-        
-document.getElementById('download').addEventListener('click', function() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-        doc.text(`Name: ${document.getElementById('name').value}`, 10, 10);
-            doc.text(`Job Title: ${document.getElementById('job').value}`, 10, 20);
-        doc.text(`Skills: ${document.getElementById('skills').value}`, 10, 30);
-            doc.text(`Experience: ${document.getElementById('experience').value}`, 10, 40);
-            doc.save("Resume.pdf");
-        });
-    </script>
 </body>
 </html>
-
-
-
-
-
